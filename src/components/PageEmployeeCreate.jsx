@@ -70,7 +70,8 @@ class PageEmployeeCreate extends React.Component {
       } else {
         this.props.history.push("/");
       }
-    })  
+    })
+     .then(this.props.addEmployee(employee));
   }
 
   render() {
