@@ -10,6 +10,7 @@ import { createStore, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import rootReducer from '../redux/reducers'
 import thunk from "redux-thunk";
+import LoginPage from "./LoginPage";
 
 
 import PageEmployeesList from './PageEmployeesList';
@@ -22,6 +23,9 @@ const App = () => (
     <Router>
       <Switch>
         <Route exact path="/">
+          <LoginPage/>
+        </Route>
+        <Route exact path="/list">
           <PageEmployeesList></PageEmployeesList>
         </Route>
         <Route exact path="/new">
