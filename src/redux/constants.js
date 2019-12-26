@@ -1,2 +1,4 @@
 export const EMPLOYEES_LOADED = 'Employees/EMPLOYEES_LOADED';
 export const EMPLOYEE_ADDED = 'Employees/EMPLOYEE_ADDED';
+export const FETCHING_EMPLOYEES = "Employees/FETCHING_EMPLOYEES";
+export const FETCHING_EMPLOYEES_ERROR = "Employees/FETCHING_EMPLOYEES_ERROR";

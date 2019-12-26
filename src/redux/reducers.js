@@ -1,8 +1,10 @@
-import { EMPLOYEES_LOADED, EMPLOYEE_ADDED } from './constants';
+import { EMPLOYEES_LOADED, EMPLOYEE_ADDED, FETCHING_EMPLOYEES, FETCHING_EMPLOYEES_ERROR } from "./constants";
 
 export const initialState = {
   employees: [],
-  isLoaded: false
+  isLoaded: false,
+  isFetching: false,
+  isError: null
 };
 
 // Read this: https://redux.js.org/basics/reducers
@@ -16,7 +18,8 @@ const appReducer = (state = initialState, action) => {
       return{
               ... state,
               employees,
-              isLoaded: true
+              isLoaded: true,
+              isFetching: false
             }
     }
     case EMPLOYEE_ADDED: {
@@ -25,7 +28,14 @@ const appReducer = (state = initialState, action) => {
             ...state,
             employees: [...state.employees, employee]
         }
-        }
+    }
+    case FETCHING_EMPLOYEES:{
+        return { ...state, isFetching: true, isError: null };
+    }
+    case FETCHING_EMPLOYEES_ERROR:{
+        const isError = action.payload;
+        return { ...state, isFetching: false, isError };
+    }
     default:
         return state
   }
