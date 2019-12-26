@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import { employeesLoaded } from '../redux/actions'
+import { fetchEmployees } from "../redux/actions";
 
 const EmployeeLine = ({ employee }) => <div>{employee.name} ({employee.age} yrs old): {employee.company}</div>
 
@@ -17,22 +18,24 @@ class PageEmployeesList extends React.Component {
   }
 
   componentDidMount() {
-    if(!this.props.isLoaded) {
-    this.setState({ isLoading: true });
-    fetch('http://localhost:3004/employees')
-    .then((data) => data.json())
+    //if(!this.props.isLoaded) {
+    //this.setState({ isLoading: true });
+    //fetch('http://localhost:3004/employees')
+    //.then((data) => data.json())
     // Without Redux
     // .then((employees) => this.setState({ employees, isLoading: false }));
     // With Redux
-    .then((employees) => {
-      this.props.employeesLoaded(employees);
-      this.setState({ isLoading: false });
-    });
-    }
+    //.then((employees) => {
+    //  this.props.employeesLoaded(employees);
+    //  this.setState({ isLoading: false });
+    //});
+    //}
+    this.props.fetchEmployees();
   }
 
   render() {
-    const { isLoading } = this.state;
+    //const { isLoading } = this.state;
+    const { isLoading } = this.props.isFetching;
     const { employees } = this.props;
 
     if(isLoading) {
@@ -54,12 +57,14 @@ class PageEmployeesList extends React.Component {
 const mapStateToProps = (state /*, ownProps*/) => {
   return {
     employees: state.employees,
-    isLoaded: state.isLoaded
+    isLoaded: state.isLoaded,
+    isFetching: state.isFetching
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  employeesLoaded: employees => dispatch(employeesLoaded(employees))
+  //employeesLoaded: employees => dispatch(employeesLoaded(employees))
+  fetchEmployees: ()=> dispatch(fetchEmployees())
 })
 
 export default connect(
