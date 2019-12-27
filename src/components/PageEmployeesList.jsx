@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import { employeesLoaded } from '../redux/actions'
@@ -37,6 +37,7 @@ class PageEmployeesList extends React.Component {
     //const { isLoading } = this.state;
     const { isLoading } = this.props.isFetching;
     const { employees } = this.props;
+    const { user } = this.props ;
 
     if(isLoading) {
       return <p>Loading ...</p>
@@ -44,11 +45,24 @@ class PageEmployeesList extends React.Component {
     
     return (
       <div>
-        <h1>Employees List:</h1>
-        {employees && employees.map((employee => <EmployeeLine key={employee._id} employee={employee} />))}
-        <Link to="/new">
-          <button>Create employee</button>
-        </Link>
+        {user !== null ?
+            <div>
+                <div align="right" >
+                <h3> Logged in as {user.full_name} </h3>
+                </div>
+                <div float="left">
+                <h1>Employees List:</h1>
+                {employees && employees.map((employee => <EmployeeLine key={employee._id} employee={employee}/>))}
+                <Link to="/new">
+                   <button>Create employee</button>
+                </Link>
+                </div>
+            </div>
+            :
+            <div>
+                <h1> Please login</h1>
+            </div>
+        }
       </div>
     );
   }
@@ -58,7 +72,8 @@ const mapStateToProps = (state /*, ownProps*/) => {
   return {
     employees: state.employees,
     isLoaded: state.isLoaded,
-    isFetching: state.isFetching
+    isFetching: state.isFetching,
+    user: state.user
   }
 }
 
@@ -70,4 +85,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(PageEmployeesList)
+)(withRouter(PageEmployeesList));
